@@ -1,0 +1,181 @@
+/* Variáveis de Cores e Estilos Básicos */
+:root {
+    --primary: #4f46e5; /* Indigo 600 */
+    --primary-hover: #4338ca;
+    --bg-color: #e5e7eb;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --card-bg: #ffffff;
+    --border-color: #d1d5db;
+    --orange: #f97316;
+    --orange-hover: #ea580c;
+    --orange-light: #fff7ed;
+    --green-light: #f0fdf4;
+    --green-dark: #15803d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+}
+
+/* Container imitando tela de celular */
+.app-container {
+    width: 100%;
+    max-width: 450px;
+    background-color: var(--card-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabeçalho */
+.header {
+    background-color: var(--primary);
+    color: white;
+    padding: 16px;
+    text-align: center;
+}
+.header h1 { font-size: 1.25rem; }
+.header p { font-size: 0.8rem; color: #e0e7ff; margin-top: 4px; }
+
+/* Abas */
+.tabs {
+    display: flex;
+    background-color: #f9fafb;
+    border-bottom: 1px solid var(--border-color);
+}
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.3s;
+}
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+/* Área Principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+.hidden { display: none !important; }
+
+/* Formulários */
+.form-group { margin-bottom: 16px; }
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #4b5563;
+    margin-bottom: 6px;
+}
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+.form-control:focus { border-color: var(--primary); }
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+/* Cards de Treino */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.card-title { font-weight: bold; font-size: 1.1rem; }
+.tag {
+    display: inline-block;
+    background-color: var(--bg-color);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+/* Área de Adaptação (IA) */
+.adapt-section {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+}
+.btn-adapt {
+    color: var(--orange);
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+.btn-adapt:hover { color: var(--orange-hover); text-decoration: underline; }
+
+.ia-box {
+    background-color: var(--orange-light);
+    border: 1px solid #ffedd5;
+    padding: 12px;
+    border-radius: 6px;
+}
+.btn-orange {
+    width: 100%;
+    background-color: var(--orange);
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+.btn-cancel {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.ia-result {
+    background-color: var(--green-light);
+    border-left: 4px solid var(--green-dark);
+    padding: 12px;
+    border-radius: 0 4px 4px 0;
+}

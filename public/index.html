@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA Fit Adapter</title>
+    <link href="./style.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="header">
+            <h1>IA Fit Adapter</h1>
+            <p>Adaptação de treinos em tempo real</p>
+        </header>
+
+        <div class="tabs">
+            <button id="btn-tab-cadastro" class="tab-btn active" onclick="mudarAba('cadastro')">Cadastro</button>
+            <button id="btn-tab-treino" class="tab-btn" onclick="mudarAba('treino')">Treino do Dia</button>
+        </div>
+
+        <main class="main-content">
+
+            <section id="aba-cadastro">
+                <h2 style="margin-bottom: 16px;">Cadastrar Exercício</h2>
+                <form id="form-cadastro">
+                    <div class="form-group">
+                        <label>Dia da Semana</label>
+                        <select id="cad-dia" class="form-control">
+                            <option value="Segunda">Segunda-feira</option>
+                            <option value="Terça">Terça-feira</option>
+                            <option value="Quarta">Quarta-feira</option>
+                            <option value="Quinta">Quinta-feira</option>
+                            <option value="Sexta">Sexta-feira</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Exercício</label>
+                        <input type="text" id="cad-nome" placeholder="Ex: Supino Reto com Barra" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Grupo Muscular</label>
+                        <input type="text" id="cad-musculo" placeholder="Ex: Peito" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn-primary">+ Adicionar à Ficha</button>
+                </form>
+            </section>
+
+            <section id="aba-treino" class="hidden">
+                <div class="form-group">
+                    <label>Visualizar ficha de:</label>
+                    <select id="filtro-dia" class="form-control" style="background-color: #f8fafc;" onchange="renderizarTreino()">
+                        <option value="Segunda">Segunda-feira</option>
+                        <option value="Terça">Terça-feira</option>
+                        <option value="Quarta">Quarta-feira</option>
+                        <option value="Quinta">Quinta-feira</option>
+                        <option value="Sexta">Sexta-feira</option>
+                    </select>
+                </div>
+
+                <div id="lista-exercicios">
+                    </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>

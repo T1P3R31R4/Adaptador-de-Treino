@@ -1,0 +1,32 @@
+{
+  "name": "adaptador-de-treino",
+  "version": "1.0.0",
+  "description": "Criar uma aplicação web responsiva (focada na usabilidade mobile) que gerencia fichas de academia e utiliza IA para resolver um problema cotidiano: a necessidade de adaptar treinos em tempo real. Seja por aparelhos ocupados, manutenção ou dores articulares leves, o sistema permite que o usuário solicite substituições imediatas e biomecanicamente seguras para qualquer exercício da sua ficha. O projeto transformará o modelo de IA em um recurso prático, integrado em uma aplicação com finalidade clara.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev:css": "npx tailwindcss -i ./src/input.css -o ./public/style.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T1P3R31R4/Adaptador-de-Treino.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/T1P3R31R4/Adaptador-de-Treino/issues"
+  },
+  "homepage": "https://github.com/T1P3R31R4/Adaptador-de-Treino#readme",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.3.1"
+  }
+}
