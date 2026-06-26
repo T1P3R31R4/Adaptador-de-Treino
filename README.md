@@ -15,7 +15,7 @@ A interface possui design moderno, fluidez e simplicidade, focada no uso via sma
 * **Aba Treino do Dia:**
   * Seletor interativo para filtrar os treinos por dia da semana.
   * Renderização em formato de *cards* com **Edição Inline** (permite alterar o nome ou músculo do exercício sem sair da tela).
-  * O recurso principal: o botão de ação rápida **"⚡ Adaptar Exercício"**.
+  * O recurso principal: o botão de ação rápida **"⚡ Solicitar ajuda da AI"**.
 * **Persistência de Dados Local:** O sistema utiliza arquivos JSON no backend (`ficha.json` e `historico.json`) para salvar a rotina e o histórico do aluno sem a necessidade de um banco de dados pesado.
 
 ---
