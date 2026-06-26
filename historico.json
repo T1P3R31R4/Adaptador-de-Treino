@@ -1,0 +1,58 @@
+[
+  {
+    "data": "2026-05-18",
+    "musculo": "Peito",
+    "original": "Supino Reto com Barra",
+    "substituto": "Supino Inclinado com Halteres",
+    "motivo": "aparelho ocupado"
+  },
+  {
+    "data": "2026-06-01",
+    "musculo": "Ombro",
+    "original": "Desenvolvimento",
+    "substituto": "Elevação Frontal",
+    "motivo": "fisgada no ombro"
+  },
+  {
+    "data": "2026-06-20",
+    "musculo": "Ombro",
+    "original": "Elevação Lateral",
+    "substituto": "Manguito no Cabo",
+    "motivo": "ainda sinto dor no ombro"
+  },
+  {
+    "data": "2026-06-25",
+    "musculo": "Costas",
+    "original": "Remada Curvada",
+    "substituto": "Remada Máquina",
+    "motivo": "quero variar o treino hoje"
+  },
+  {
+    "data": "2026-06-26",
+    "musculo": "Peito",
+    "original": "Supino Reto com Barra",
+    "substituto": "Crossover em pé com cabos (posição baixa)",
+    "motivo": "Estou com dor no ombro esquerdo"
+  },
+  {
+    "data": "2026-06-26",
+    "musculo": "Peito",
+    "original": "Supino Inclinado com Halteres",
+    "substituto": "Chest Press na Máquina",
+    "motivo": "O aparelho está ocupado"
+  },
+  {
+    "data": "2026-06-26",
+    "musculo": "Tríceps",
+    "original": "Tríceps Testa com Barra W",
+    "substituto": "Tríceps Kickback com Halteres",
+    "motivo": "a barra w está sendo usada por outra pessoa"
+  },
+  {
+    "data": "2026-06-26",
+    "musculo": "Tríceps",
+    "original": "Mergulho nas Paralelas",
+    "substituto": "Tríceps Francês na Polia Alta (cabo)",
+    "motivo": "Não sei como fazer esse exercício"
+  }
+]

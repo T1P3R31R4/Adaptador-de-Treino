@@ -1,31 +1,99 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs/promises";
 import "dotenv/config";
 
 const app = express();
 const PORT = 3000;
-
 const API_KEY = process.env.OPENROUTER_API_KEY;
 const MODEL = "openai/gpt-oss-120b:free";
 
-if (!API_KEY) {
-    console.error("Erro: configure OPENROUTER_API_KEY no arquivo .env.");
-    process.exit(1);
-}
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public")); // Serve a pasta estática
+app.use(express.static("public"));
 
+async function lerArquivo(nome) {
+    try {
+        const data = await fs.readFile(nome, 'utf-8');
+        return JSON.parse(data);
+    } catch {
+        return [];
+    }
+}
+async function salvarArquivo(nome, dados) {
+    await fs.writeFile(nome, JSON.stringify(dados, null, 2));
+}
+
+// Rotas da API
+app.get("/api/ficha", async (req, res) => {
+    const ficha = await lerArquivo('ficha.json');
+    res.json(ficha);
+});
+
+app.post("/api/ficha", async (req, res) => {
+    const { dia, nome, musculo } = req.body;
+    const ficha = await lerArquivo('ficha.json');
+    const novoExercicio = { id: Date.now(), dia, nome, musculo };
+    ficha.push(novoExercicio);
+    await salvarArquivo('ficha.json', ficha);
+    res.json(novoExercicio);
+});
+
+app.delete("/api/ficha/:id", async (req, res) => {
+    let ficha = await lerArquivo('ficha.json');
+    ficha = ficha.filter(ex => ex.id !== parseInt(req.params.id));
+    await salvarArquivo('ficha.json', ficha);
+    res.json({ sucesso: true });
+});
+
+app.put("/api/ficha/:id", async (req, res) => {
+    const { nome, musculo, dia } = req.body;
+    let Glen = await lerArquivo('ficha.json');
+    
+    const index = Glen.findIndex(ex => ex.id === parseInt(req.params.id));
+    
+    if (index !== -1) {
+        // Atualiza os dados mantendo o mesmo ID
+        Glen[index] = { ...Glen[index], nome, musculo, dia };
+        await salvarArquivo('ficha.json', Glen);
+        res.json(Glen[index]);
+    } else {
+        res.status(404).json({ erro: "Exercício não encontrado." });
+    }
+});
+
+// Rotas da AI
 app.post("/api/llm", async (req, res) => {
     try {
         const { exercicio, musculo, motivo } = req.body;
+        const historico = await lerArquivo('historico.json');
+        const ficha = await lerArquivo('ficha.json');
 
-        if (!exercicio || !motivo) {
-            return res.status(400).json({ erro: "Dados incompletos para a adaptação." });
-        }
+        const nomesFicha = ficha.map(ex => ex.nome).join(", ");
+        const historicoMusculo = historico
+            .filter(item => item.musculo === musculo)
+            .map(item => `Dia ${item.data}: ${item.motivo}`)
+            .join(" | ");
 
-        const promptUsuario = `Exercício original: ${exercicio}. Grupo muscular alvo: ${musculo}. Motivo da necessidade de adaptação: ${motivo}.`;
+        const hoje = new Date().toISOString().split('T')[0];
+
+        const promptSistema = `Você é um treinador de academia. Fale de forma simples, direta e NUNCA use termos médicos complexos.
+Data de hoje: ${hoje}.
+
+ÁRVORE DE DECISÃO:
+1. Dúvida de execução (ex: "não sei fazer", "esqueci", "como executa"): NÃO troque o exercício. Retorne EXATAMENTE o exercício ORIGINAL no campo Exercício. Justificativa = Dê uma instrução muito breve (máximo 2 frases) de como fazer o movimento. Alerta Preventivo = "Nenhum".
+2. Motivos comuns (ocupado, variar, enjoado): Sugira um exercício equivalente com peso livre ou máquina. Alerta Preventivo = "Nenhum".
+3. Dor recente: Sugira um exercício que poupe a articulação. Alerta Preventivo = Sugira EXPLICITAMENTE um exercício simples de fortalecimento (Ex: "Faça 3 séries de rotação externa no cabo leve").
+4. Dor crônica: Se o aluno tiver histórico de dor nesse músculo há semanas, Alerta Preventivo = "🚨 Você está relatando dores frequentes nesta região há dias. Procure um ortopedista ou fisioterapeuta antes de agravar a lesão."
+
+REGRAS ESTABELECIDAS:
+- FORMATO: "Exercício: [Nome] | Justificativa: [Explicação simples] | Alerta Preventivo: [Alerta ou 'Nenhum']"
+- Nas regras 2, 3 e 4, NÃO sugira exercícios que o aluno já faz na ficha atual: [${nomesFicha}].`;
+
+        const promptUsuario = `Exercício original: ${exercicio}
+Grupo muscular: ${musculo}
+Motivo da adaptação atual: ${motivo}
+Histórico passado neste músculo: ${historicoMusculo || 'Sem histórico.'}`;
 
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -38,44 +106,27 @@ app.post("/api/llm", async (req, res) => {
             body: JSON.stringify({
                 model: MODEL,
                 messages: [
-                    {
-                        role: "system",
-                        content: "Você é um Personal Trainer especialista em biomecânica. Analise o exercício original e o motivo da troca. Retorne a resposta em linguagem direta e didática, fornecendo apenas o nome do exercício substituto equivalente e uma breve explicação técnica do porquê ele substitui o original de forma segura e eficaz. Não faça saudações."
-                    },
-                    {
-                        role: "user",
-                        content: promptUsuario
-                    }
+                    { role: "system", content: promptSistema },
+                    { role: "user", content: promptUsuario }
                 ],
-                temperature: 0.7,
-                max_completion_tokens: 500
+                temperature: 0.6,
+                max_completion_tokens: 600
             })
         });
 
-        if (!response.ok) {
-            const detalhe = await response.text();
-            return res.status(502).json({
-                erro: "Erro ao consultar o OpenRouter.",
-                status: response.status,
-                detalhe
-            });
-        }
-
         const data = await response.json();
         const text = data.choices?.[0]?.message?.content;
+        if (!text) return res.status(502).json({ erro: "Falha na IA." });
 
-        if (!text) {
-            return res.status(502).json({ erro: "Resposta vazia ou inesperada da IA." });
-        }
+        // Salva histórico de adaptação
+        historico.push({ data: hoje, musculo, original: exercicio, substituto: text.split('|')[0].replace('Exercício:', '').trim(), motivo });
+        await salvarArquivo('historico.json', historico);
 
         res.json({ resposta: text });
-
     } catch (error) {
         console.error(error);
-        res.status(500).json({ erro: "Erro interno no servidor.", detalhe: error.message });
+        res.status(500).json({ erro: "Erro interno no servidor." });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));

@@ -28,7 +28,7 @@ body {
     justify-content: center;
 }
 
-/* Container imitando tela de celular */
+/* Container mobile */
 .app-container {
     width: 100%;
     max-width: 450px;
@@ -39,7 +39,6 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Cabeçalho */
 .header {
     background-color: var(--primary);
     color: white;
@@ -49,7 +48,6 @@ body {
 .header h1 { font-size: 1.25rem; }
 .header p { font-size: 0.8rem; color: #e0e7ff; margin-top: 4px; }
 
-/* Abas */
 .tabs {
     display: flex;
     background-color: #f9fafb;
@@ -72,7 +70,6 @@ body {
     border-bottom-color: var(--primary);
 }
 
-/* Área Principal */
 .main-content {
     flex: 1;
     padding: 20px;
@@ -80,7 +77,6 @@ body {
 }
 .hidden { display: none !important; }
 
-/* Formulários */
 .form-group { margin-bottom: 16px; }
 .form-group label {
     display: block;
@@ -112,7 +108,6 @@ body {
 }
 .btn-primary:hover { background-color: var(--primary-hover); }
 
-/* Cards de Treino */
 .card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -132,7 +127,6 @@ body {
     margin-top: 6px;
 }
 
-/* Área de Adaptação (IA) */
 .adapt-section {
     margin-top: 16px;
     padding-top: 12px;
